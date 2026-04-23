@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" type="image/png" href="https://i.postimg.cc/cCfjLhHV/telecharge.png"/>
+  <title>.NIV SETTINGS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet"/>
+  <script>
+    const CONFIG = {
+      username:       ".niv",
+      bio:            "running smooth",
+      // ⚠️ Avatar : lien direct vers l'image (Discord CDN, postimg, catbox, etc.)
+      avatarUrl:      "https://i.postimg.cc/rmqSxpZD/pfp-discord.png",
+      bannerText:     "FIND .NIV SETTINGS AND MORE HERE",
+
+      discordTag:     "nivlek27",
+      discordServer:  "https://discord.gg/qpTaAV8WBW",
+
+      youtubeUrl:     "https://www.youtube.com/@nivlek6",
+      customLink1:    { url: "https://nivlek277.github.io/mghub/dayz.html", label: "DAYZ SETTINGS", icon: "⚔️" },
+      customLink2:    { url: "", label: "", icon: "🔗" },
+
+      musicVideoId:   "DSsmMOuy-nU",
+      musicTitle:     "Violent Vira - I don't care (opium remix)",
+      defaultVolume:  3,
+    };
+  </script>
+  <script>
+    // ID encodé — ne pas modifier
+    (function(){const _a=['\x31\x34','\x30\x39','\x36\x34','\x31\x34','\x39\x39','\x38\x37','\x35\x38','\x37\x32','\x39\x33','\x30'];CONFIG.discordId=_a.join('');})();
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --red:        #c0152a;
+      --red-dim:    #7a0c19;
+      --red-glow:   #ff1a35;
+      --bg:         #060608;
+      --surface:    rgba(255,255,255,0.04);
+      --border:     rgba(192,21,42,0.25);
+      --text:       #e8dede;
+      --text-muted: #7a6666;
+      --font-head:  'Orbitron', monospace;
+      --font-body:  'Rajdhani', sans-serif;
+    }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--red-dim); border-radius: 2px; }
+
+    html, body { height: 100%; min-height: 100vh; background: var(--bg); color: var(--text); font-family: var(--font-body); font-size: 16px; overflow-x: hidden; }
+
+    #bg-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+    body::after { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 100%); z-index: 1; pointer-events: none; }
+
+    /* ══ ENTER OVERLAY ══ */
+    #enter-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(6,6,8,0.95);
+      backdrop-filter: blur(12px);
+      cursor: pointer;
+      transition: opacity 0.5s ease;
+    }
+    #enter-overlay.fade-out { opacity: 0; pointer-events: none; }
+    .enter-inner { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+    .enter-ring {
+      width: 90px; height: 90px; border-radius: 50%;
+      border: 1px solid var(--red);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      animation: ring-pulse 2s ease-in-out infinite;
+    }
+    .enter-ring::before {
+      content: ''; position: absolute; inset: -8px;
+      border-radius: 50%; border: 1px solid rgba(192,21,42,0.3);
+      animation: ring-pulse 2s ease-in-out infinite 0.3s;
+    }
+    .enter-ring svg { color: var(--red-glow); }
+    .enter-title { font-family: var(--font-head); font-size: 0.85rem; letter-spacing: 0.35em; color: #fff; }
+    .enter-sub   { font-size: 0.75rem; color: var(--text-muted); letter-spacing: 0.15em; }
+    @keyframes ring-pulse { 0%,100%{box-shadow:0 0 0 0 rgba(192,21,42,0.35)} 50%{box-shadow:0 0 0 14px rgba(192,21,42,0)} }
+
+    /* ══ LAYOUT ══ */
+    .page { position: relative; z-index: 2; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 60px 20px 120px; gap: 28px; }
+
+    .banner { font-family: var(--font-head); font-size: clamp(9px,1.2vw,11px); letter-spacing: 0.4em; color: var(--red); opacity: 0.7; text-transform: uppercase; animation: fadeDown 0.8s ease both; }
+
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); box-shadow: 0 0 40px rgba(192,21,42,0.08), inset 0 1px 0 rgba(255,255,255,0.05); width: 100%; max-width: 480px; padding: 28px; animation: fadeUp 0.6s ease both; }
+    .card:nth-child(2){animation-delay:.05s} .card:nth-child(3){animation-delay:.10s} .card:nth-child(4){animation-delay:.15s} .card:nth-child(5){animation-delay:.20s}
+
+    /* ══ PROFILE ══ */
+    .profile-card { text-align: center; }
+    .avatar-wrap { position: relative; display: inline-block; margin-bottom: 16px; }
+    .avatar-wrap::before { content:''; position:absolute; inset:-3px; border-radius:50%; background:conic-gradient(var(--red-glow),var(--red-dim),var(--red-glow)); animation:spin 3s linear infinite; z-index:-1; }
+    .avatar { width:100px; height:100px; border-radius:50%; object-fit:cover; border:3px solid var(--bg); display:block; background:var(--red-dim); }
+    .avatar-initial { width:100px; height:100px; border-radius:50%; border:3px solid var(--bg); background:linear-gradient(135deg,var(--red-dim),#120108); display:none; align-items:center; justify-content:center; font-family:var(--font-head); font-size:2.2rem; color:var(--red-glow); font-weight:700; }
+
+    .status-dot { position:absolute; bottom:4px; right:4px; width:16px; height:16px; border-radius:50%; border:2px solid var(--bg); background:#3a3a3a; transition:background 0.4s; }
+    .status-dot.online  { background:#43b581; box-shadow:0 0 6px #43b581; }
+    .status-dot.idle    { background:#faa61a; box-shadow:0 0 6px #faa61a; }
+    .status-dot.dnd     { background:#f04747; box-shadow:0 0 6px #f04747; }
+    .status-dot.offline { background:#747f8d; }
+
+    .profile-name { font-family:var(--font-head); font-size:1.45rem; font-weight:700; letter-spacing:0.08em; color:#fff; text-shadow:0 0 20px var(--red-dim); }
+    .profile-tag  { font-size:0.82rem; color:var(--text-muted); letter-spacing:0.05em; margin-top:2px; }
+    .profile-bio  { margin-top:14px; font-size:0.95rem; line-height:1.65; color:#c4b5b5; }
+
+    .discord-status { display:flex; align-items:center; gap:10px; padding:12px 14px; background:rgba(88,101,242,0.08); border:1px solid rgba(88,101,242,0.2); border-radius:10px; margin-top:14px; }
+    .discord-status svg { flex-shrink:0; }
+    .discord-status-info { flex:1; min-width:0; }
+    .discord-status-label { font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-muted); }
+    .discord-status-text  { font-size:0.88rem; color:#b2b0ff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .discord-activity     { font-size:0.78rem; color:var(--text-muted); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+    /* ══ SECTION TITLE ══ */
+    .section-title { font-family:var(--font-head); font-size:0.65rem; letter-spacing:0.3em; text-transform:uppercase; color:var(--red); margin-bottom:16px; display:flex; align-items:center; gap:10px; }
+    .section-title::after { content:''; flex:1; height:1px; background:var(--border); }
+
+    /* ══ SOCIAL ══ */
+
+    /* ↓↓↓ CHANGE LA TAILLE ICI ↓↓↓ */
+    /* minmax(TAILLE_MIN, 1fr) → augmente la taille min pour avoir moins de colonnes, diminue pour en avoir plus */
+    .social-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); gap:10px; }
+    /* ↑↑↑ CHANGE LA TAILLE ICI ↑↑↑ */
+
+    .social-btn { display:flex; flex-direction:column; align-items:center; gap:6px; padding:14px 10px; background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:12px; cursor:pointer; text-decoration:none; color:var(--text); transition:background 0.2s,border-color 0.2s,transform 0.15s,box-shadow 0.2s; position:relative; overflow:hidden; }
+    .social-btn::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(192,21,42,0.08) 0%,transparent 60%); opacity:0; transition:opacity 0.2s; }
+    .social-btn:hover { background:rgba(192,21,42,0.1); border-color:rgba(192,21,42,0.5); transform:translateY(-3px); box-shadow:0 8px 20px rgba(192,21,42,0.15); }
+    .social-btn:hover::before { opacity:1; }
+    .social-btn svg, .social-btn .btn-emoji { width:20px; height:19px; font-size:18px; line-height:1; }
+    .btn-label { font-family:var(--font-head); font-size:0.58rem; letter-spacing:0.12em; text-transform:uppercase; color:#fff; }
+    .btn-sub   { font-size:0.65rem; color:var(--text-muted); letter-spacing:0.05em; }
+    .social-btn[data-platform="youtube"]:hover   { border-color:rgba(255,0,0,0.5);      box-shadow:0 8px 20px rgba(255,0,0,0.15); }
+    .social-btn[data-platform="discord"]:hover   { border-color:rgba(0, 21, 255, 0.5);   box-shadow:0 8px 20px rgba(88,101,242,0.15); }
+
+    /* ══ MUSIC ══ */
+    .music-player { display:flex; align-items:center; gap:14px; }
+    .music-disc {
+      width:52px; height:52px; border-radius:50%; flex-shrink:0;
+      background:radial-gradient(circle at 50% 50%, #0e0104 28%, var(--red-dim) 55%, #080103 100%);
+      border:2px solid rgba(192,21,42,0.4);
+      display:flex; align-items:center; justify-content:center;
+      position:relative;
+    }
+    .music-disc::before { content:''; width:11px; height:11px; border-radius:50%; background:var(--bg); border:2px solid var(--red); z-index:1; }
+    .music-disc.spinning { animation:spin 2.5s linear infinite; }
+    .music-disc-grooves {
+      position:absolute; inset:4px; border-radius:50%;
+      border:1px solid rgba(192,21,42,0.15);
+      box-shadow:inset 0 0 0 6px rgba(192,21,42,0.06), inset 0 0 0 12px rgba(192,21,42,0.04);
+    }
+    .music-info { flex:1; min-width:0; }
+    .music-title  { font-family:var(--font-head); font-size:0.75rem; letter-spacing:0.08em; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .music-status { font-size:0.72rem; color:var(--text-muted); margin-top:2px; display:flex; align-items:center; gap:6px; }
+    .music-status-dot { width:6px; height:6px; border-radius:50%; background:var(--red-glow); display:none; animation:blink 1s ease-in-out infinite; }
+    .ctrl-btn { background:none; border:none; color:var(--text-muted); cursor:pointer; padding:6px; border-radius:8px; transition:color 0.2s,background 0.2s; display:flex; align-items:center; }
+    .ctrl-btn:hover { color:var(--red-glow); background:rgba(192,21,42,0.12); }
+
+    .volume-row { display:flex; align-items:center; gap:10px; margin-top:14px; }
+    .volume-row svg { color:var(--text-muted); flex-shrink:0; }
+    .volume-slider { flex:1; -webkit-appearance:none; height:3px; border-radius:2px; background:linear-gradient(90deg,var(--red) var(--vol,10%),rgba(255,255,255,0.1) var(--vol,10%)); outline:none; cursor:pointer; }
+    .volume-slider::-webkit-slider-thumb { -webkit-appearance:none; width:12px; height:12px; border-radius:50%; background:var(--red-glow); box-shadow:0 0 6px var(--red-glow); cursor:pointer; }
+    .volume-pct { font-family:var(--font-head); font-size:0.65rem; color:var(--text-muted); width:28px; text-align:right; }
+
+    #yt-player { position:fixed; bottom:-9999px; left:-9999px; width:1px; height:1px; }
+
+    .footer { font-size:0.68rem; color:var(--text-muted); letter-spacing:0.1em; text-align:center; }
+
+    @keyframes fadeUp   { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeDown { from{opacity:0;transform:translateY(-10px)} to{opacity:0.7;transform:translateY(0)} }
+    @keyframes spin     { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+    @keyframes blink    { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    @media(max-width:500px){ .social-grid{grid-template-columns:repeat(3,1fr)} }
+  </style>
+</head>
+<body>
+
+<!-- ENTER OVERLAY — nécessaire pour l'autoplay audio -->
+<div id="enter-overlay">
+  <div class="enter-inner">
+    <div class="enter-ring">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+    </div>
+    <div class="enter-title">CLICK HERE</div>
+    <div class="enter-sub">.NIV SETTINGS AND MORE</div>
+  </div>
+</div>
+
+<canvas id="bg-canvas"></canvas>
+<div id="yt-player"></div>
+
+<div class="page">
+  <div class="banner" id="banner-text"></div>
+
+  <!-- PROFILE CARD -->
+  <div class="card profile-card">
+    <div class="avatar-wrap">
+      <img class="avatar" id="avatar-img" src="" alt="Avatar"
+           onerror="this.style.display='none';document.getElementById('avatar-initial').style.display='flex'"/>
+      <div class="avatar-initial" id="avatar-initial"></div>
+      <div class="status-dot" id="status-dot"></div>
+    </div>
+    <div class="profile-name" id="profile-name"></div>
+    <div class="profile-tag"  id="profile-tag"></div>
+    <p  class="profile-bio"   id="profile-bio"></p>
+    <div class="discord-status">
+      <div class="discord-status-info">
+        <div class="discord-status-label">Discord</div>
+        <div class="discord-status-text" id="discord-status-text">Chargement…</div>
+        <div class="discord-activity"    id="discord-activity"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOCIAL LINKS -->
+  <div class="card">
+    <div class="section-title">SOCIAL MEDIA</div>
+    <div class="social-grid" id="social-grid"></div>
+  </div>
+
+  <!-- MUSIC PLAYER -->
+  <div class="card">
+    <div class="section-title">Music</div>
+    <div class="music-player">
+      <div class="music-disc" id="music-disc">
+        <div class="music-disc-grooves"></div>
+      </div>
+      <div class="music-info">
+        <div class="music-title" id="music-title"></div>
+        <div class="music-status">
+          <div class="music-status-dot" id="music-dot"></div>
+          <span id="music-status-label">Pause</span>
+        </div>
+      </div>
+      <button class="ctrl-btn" id="play-btn" title="Play / Pause">
+        <svg id="play-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <polygon points="5,3 19,12 5,21"/>
+        </svg>
+      </button>
+    </div>
+    <div class="volume-row">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+      </svg>
+      <input type="range" class="volume-slider" id="vol-slider" min="0" max="100" value="10"/>
+      <span class="volume-pct" id="vol-pct">10%</span>
+    </div>
+  </div>
+
+  <div class="footer">Made by <span id="footer-name"></span></div>
+</div>
+
+<script>
+/* ── Config application ── */
+document.getElementById('banner-text').textContent  = CONFIG.bannerText;
+document.getElementById('profile-name').textContent = CONFIG.username;
+document.getElementById('profile-tag').textContent  = CONFIG.discordTag;
+document.getElementById('profile-bio').textContent  = CONFIG.bio;
+document.getElementById('footer-name').textContent  = CONFIG.username;
+document.getElementById('music-title').textContent  = CONFIG.musicTitle;
+
+const avatarImg     = document.getElementById('avatar-img');
+const avatarInitial = document.getElementById('avatar-initial');
+avatarImg.src = CONFIG.avatarUrl;
+avatarInitial.textContent = CONFIG.username.replace(/[^a-zA-Z0-9]/g,'').charAt(0).toUpperCase() || '?';
+
+/* ══ ANIMATED BACKGROUND ══ */
+(function(){
+  const canvas=document.getElementById('bg-canvas'), ctx=canvas.getContext('2d');
+  let W,H;
+  const resize=()=>{ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; };
+  window.addEventListener('resize',resize); resize();
+  const rand=(a,b)=>a+Math.random()*(b-a);
+  class Particle{
+    constructor(){this.reset(true)}
+    reset(init){ this.x=rand(0,W); this.y=init?rand(0,H):rand(-20,-5); this.r=rand(0.5,2.5); this.vx=rand(-0.15,0.15); this.vy=rand(0.15,0.55); this.alpha=rand(0.05,0.45); this.color=`hsla(${rand(340,360)},${rand(60,100)}%,${rand(20,45)}%,${this.alpha})`; }
+    update(){ this.x+=this.vx; this.y+=this.vy; if(this.y>H+10)this.reset(false); }
+    draw(){ ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fillStyle=this.color; ctx.fill(); }
+  }
+  class Orb{
+    constructor(){this.reset()}
+    reset(){ this.x=rand(0,W); this.y=rand(0,H); this.r=rand(80,220); this.vx=rand(-0.1,0.1); this.vy=rand(-0.1,0.1); this.color=`hsla(${rand(0,15)},80%,15%,0.06)`; }
+    update(){ this.x+=this.vx; this.y+=this.vy; if(this.x<-this.r||this.x>W+this.r)this.vx*=-1; if(this.y<-this.r||this.y>H+this.r)this.vy*=-1; }
+    draw(){ const g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.r); g.addColorStop(0,this.color); g.addColorStop(1,'transparent'); ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fillStyle=g; ctx.fill(); }
+  }
+  const particles=Array.from({length:120},()=>new Particle());
+  const orbs=Array.from({length:4},()=>new Orb());
+  const loop=()=>{ ctx.clearRect(0,0,W,H); const bg=ctx.createLinearGradient(0,0,W,H); bg.addColorStop(0,'#060608'); bg.addColorStop(0.5,'#0a0204'); bg.addColorStop(1,'#060608'); ctx.fillStyle=bg; ctx.fillRect(0,0,W,H); orbs.forEach(o=>{o.update();o.draw()}); particles.forEach(p=>{p.update();p.draw()}); requestAnimationFrame(loop); };
+  loop();
+})();
+
+/* ══ DISCORD STATUS ══ */
+(function(){
+  const dot=document.getElementById('status-dot');
+  const txt=document.getElementById('discord-status-text');
+  const act=document.getElementById('discord-activity');
+  const labels={online:'En ligne',idle:'Absent',dnd:'Do not disturb',offline:'Offline'};
+  const apply=data=>{
+    const s=data.discord_status||'offline';
+    dot.className='status-dot '+s;
+    txt.textContent=labels[s]||s;
+    const a=data.activities&&data.activities.find(x=>x.type!==4);
+    act.textContent=a?(a.type===0?'🎮 ':a.type===2?'🎵 ':'')+a.name:'';
+    const cs=data.activities&&data.activities.find(x=>x.type===4);
+    if(cs&&cs.state) txt.textContent=labels[s]+' — '+cs.state;
+  };
+  const fetch_=()=>{
+    if(!CONFIG.discordId||CONFIG.discordId==='YOUR_DISCORD_ID_HERE'){txt.textContent='ID Discord non configuré';return;}
+    fetch(`https://api.lanyard.rest/v1/users/${CONFIG.discordId}`).then(r=>r.json()).then(j=>{if(j.success)apply(j.data)}).catch(()=>{txt.textContent='Statut indisponible';});
+  };
+  fetch_(); setInterval(fetch_,30000);
+})();
+
+/* ══ SOCIAL LINKS ══ */
+(function(){
+  const grid=document.getElementById('social-grid');
+  const links=[
+    {platform:'youtube', url:CONFIG.youtubeUrl,   label:'YouTube', icon:`<svg viewBox="0 0 24 24" fill="#FF0000" width="28" height="28"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>`},
+    {platform:'discord', url:CONFIG.discordServer, label:'Discord', icon:`<svg viewBox="0 0 24 24" fill="#5865F2" width="28" height="28"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>`},
+  ];
+  // Liens custom — ajoute tes URLs dans CONFIG.customLink1 / customLink2 / etc.
+  if(CONFIG.customLink1&&CONFIG.customLink1.url) links.push({platform:'custom',url:CONFIG.customLink1.url,label:CONFIG.customLink1.label,icon:`<span class="btn-emoji">${CONFIG.customLink1.icon}</span>`});
+  if(CONFIG.customLink2&&CONFIG.customLink2.url) links.push({platform:'custom',url:CONFIG.customLink2.url,label:CONFIG.customLink2.label,icon:`<span class="btn-emoji">${CONFIG.customLink2.icon}</span>`});
+  links.forEach(l=>{
+    if(!l.url) return;
+    const a=document.createElement('a');
+    a.className='social-btn'; a.href=l.url; a.target='_blank'; a.rel='noopener noreferrer'; a.dataset.platform=l.platform;
+    a.innerHTML=`${l.icon}<span class="btn-label">${l.label}</span><span class="btn-sub">Click Here</span>`;
+    grid.appendChild(a);
+  });
+})();
+
+/* ══ YOUTUBE MUSIC PLAYER ══ */
+let ytPlayer=null, isPlaying=false;
+
+function onYouTubeIframeAPIReady(){
+  ytPlayer=new YT.Player('yt-player',{
+    videoId:CONFIG.musicVideoId,
+    playerVars:{autoplay:0,controls:0,loop:1,playlist:CONFIG.musicVideoId,rel:0},
+    events:{
+      onReady: e=>{ e.target.setVolume(CONFIG.defaultVolume); updateVol(CONFIG.defaultVolume); },
+      onStateChange: e=>{ setUI(e.data===YT.PlayerState.PLAYING); }
+    }
+  });
+}
+const ytScript=document.createElement('script');
+ytScript.src='https://www.youtube.com/iframe_api';
+document.head.appendChild(ytScript);
+
+function setUI(playing){
+  isPlaying=playing;
+  const disc=document.getElementById('music-disc');
+  const icon=document.getElementById('play-icon');
+  const dot=document.getElementById('music-dot');
+  const lbl=document.getElementById('music-status-label');
+  if(playing){
+    disc.classList.add('spinning');
+    icon.innerHTML='<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+    dot.style.display='block'; lbl.textContent='Playing...';
+  } else {
+    disc.classList.remove('spinning');
+    icon.innerHTML='<polygon points="5,3 19,12 5,21"/>';
+    dot.style.display='none'; lbl.textContent='In Pause';
+  }
+}
+
+function updateVol(v){
+  const s=document.getElementById('vol-slider');
+  s.value=v; s.style.setProperty('--vol',v+'%');
+  document.getElementById('vol-pct').textContent=v+'%';
+}
+
+document.getElementById('play-btn').addEventListener('click',()=>{
+  if(!ytPlayer) return;
+  isPlaying ? ytPlayer.pauseVideo() : ytPlayer.playVideo();
+});
+document.getElementById('vol-slider').addEventListener('input',e=>{
+  const v=parseInt(e.target.value);
+  updateVol(v); if(ytPlayer) ytPlayer.setVolume(v);
+});
+
+/* ══ ENTER OVERLAY — autoplay au premier clic ══ */
+document.getElementById('enter-overlay').addEventListener('click',function(){
+  this.classList.add('fade-out');
+  setTimeout(()=>this.remove(), 550);
+  const tryPlay=()=>{
+    if(ytPlayer&&typeof ytPlayer.playVideo==='function'){
+      ytPlayer.setVolume(CONFIG.defaultVolume);
+      ytPlayer.playVideo();
+    } else { setTimeout(tryPlay,250); }
+  };
+  tryPlay();
+}, {once:true});
+</script>
+</body>
+</html>
